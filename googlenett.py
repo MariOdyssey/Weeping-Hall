@@ -53,50 +53,51 @@ def Inception(x, nb_filter):
     return x
 
 
-inpt = Input(shape=(224, 224, 3))
+    def get_model():
+    inpt = Input(shape=(224, 224, 3))
 
-# padding = 'same'，填充为(步长-1）/2,还可以用ZeroPadding2D((3,3))
+    # padding = 'same'，填充为(步长-1）/2,还可以用ZeroPadding2D((3,3))
 
-x = Conv2d_BN(inpt, 64, (7, 7), strides=(2, 2), padding='same')
+    x = Conv2d_BN(inpt, 64, (7, 7), strides=(2, 2), padding='same')
 
-x = MaxPooling2D(pool_size=(3, 3), strides=(2, 2), padding='same')(x)
+    x = MaxPooling2D(pool_size=(3, 3), strides=(2, 2), padding='same')(x)
 
-x = Conv2d_BN(x, 192, (3, 3), strides=(1, 1), padding='same')
+    x = Conv2d_BN(x, 192, (3, 3), strides=(1, 1), padding='same')
 
-x = MaxPooling2D(pool_size=(3, 3), strides=(2, 2), padding='same')(x)
+    x = MaxPooling2D(pool_size=(3, 3), strides=(2, 2), padding='same')(x)
 
-x = Inception(x, 64)  # 256
+    x = Inception(x, 64)  # 256
 
-x = Inception(x, 120)  # 480
+    x = Inception(x, 120)  # 480
 
-x = MaxPooling2D(pool_size=(3, 3), strides=(2, 2), padding='same')(x)
+    x = MaxPooling2D(pool_size=(3, 3), strides=(2, 2), padding='same')(x)
 
-x = Inception(x, 128)  # 512
+    x = Inception(x, 128)  # 512
 
-x = Inception(x, 128)
+    x = Inception(x, 128)
 
-x = Inception(x, 128)
+    x = Inception(x, 128)
 
-x = Inception(x, 132)  # 528
+    x = Inception(x, 132)  # 528
 
-x = Inception(x, 208)  # 832
+    x = Inception(x, 208)  # 832
 
-x = MaxPooling2D(pool_size=(3, 3), strides=(2, 2), padding='same')(x)
+    x = MaxPooling2D(pool_size=(3, 3), strides=(2, 2), padding='same')(x)
 
-x = Inception(x, 208)
+    x = Inception(x, 208)
 
-x = Inception(x, 256)  # 1024
+    x = Inception(x, 256)  # 1024
 
-x = AveragePooling2D(pool_size=(7, 7), strides=(7, 7), padding='same')(x)
+    x = AveragePooling2D(pool_size=(7, 7), strides=(7, 7), padding='same')(x)
 
-x = Dropout(0.4)(x)
+    x = Dropout(0.4)(x)
 
-x = Dense(1000, activation='relu')(x)
+    x = Dense(1000, activation='relu')(x)
 
-x = Dense(1000, activation='softmax')(x)
+    x = Dense(1000, activation='softmax')(x)
 
-model = Model(inpt, x, name='inception')
+    model = Model(inpt, x, name='inception')
 
-model.compile(loss='categorical_crossentropy', optimizer='sgd', metrics=['accuracy'])
+    model.compile(loss='categorical_crossentropy', optimizer='sgd', metrics=['accuracy'])
 
-model.summary()
+    model.summary()
